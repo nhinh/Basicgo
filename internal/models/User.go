@@ -18,9 +18,18 @@ type User struct {
 func(u *User) SaveUser(db *gorm.DB) (*User, error) {
 	var err error
 	err = db.Debug().Create(&u).Error
-	fmt.Println("Insert %s", err)
-	//if err != nil {
-	//	return &User{}, err
-	//}
+	fmt.Println("Insert boi Nhi %s", err)
+	if err != nil {
+		return &User{}, err
+	}
+	return u, nil
+}
+
+func (u *User) SelectSaveUser(db *gorm.DB) (*User, error) {
+	var err error
+	err = db.Select("Username", "Email", "Password").Create(&u).Error
+	if err != nil {
+		return &User{}, err
+	}
 	return u, nil
 }

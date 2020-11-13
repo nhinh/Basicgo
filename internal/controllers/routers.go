@@ -1,9 +1,9 @@
 package controllers
 
 func (s *Server) initializeRoutes() {
-
 	//Users routes
 	s.Router.HandleFunc("/users", (s.CreateUser)).Methods("POST")
+	s.Router.HandleFunc("/usersSelect", (s.CreateUserSelect)).Methods("POST")
 
 	////Users routes
 	//s.Router.HandleFunc("/users", middlewares.SetMiddlewareJSON(s.CreateUser)).Methods("POST")

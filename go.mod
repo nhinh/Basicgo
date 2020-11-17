@@ -11,4 +11,5 @@ require (
 	github.com/mattn/go-sqlite3 v2.0.1+incompatible // indirect
 	github.com/rs/cors v1.7.0
 	golang.org/x/crypto v0.0.0-20200117160349-530e935923ad // indirect
+	gopkg.in/go-playground/assert.v1 v1.2.1
 )

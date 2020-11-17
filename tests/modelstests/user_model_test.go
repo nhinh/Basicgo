@@ -4,9 +4,10 @@ import (
 	"log"
 	"testing"
 
+	"Basicgo/internal/models"
+
 	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql driver
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres driver
-	"github.com/pvtamh2bg/Golangwebapp/api/models"
 	"gopkg.in/go-playground/assert.v1"
 )
 
@@ -40,7 +41,7 @@ func TestSaveUser(t *testing.T) {
 	newUser := models.User{
 		ID:       1,
 		Email:    "test@gmail.com",
-		Nickname: "test",
+		Username: "test",
 		Password: "password",
 	}
 	savedUser, err := newUser.SaveUser(server.DB)
@@ -50,7 +51,7 @@ func TestSaveUser(t *testing.T) {
 	}
 	assert.Equal(t, newUser.ID, savedUser.ID)
 	assert.Equal(t, newUser.Email, savedUser.Email)
-	assert.Equal(t, newUser.Nickname, savedUser.Nickname)
+	assert.Equal(t, newUser.Username, savedUser.Username)
 }
 
 func TestGetUserByID(t *testing.T) {
@@ -71,7 +72,7 @@ func TestGetUserByID(t *testing.T) {
 	}
 	assert.Equal(t, foundUser.ID, user.ID)
 	assert.Equal(t, foundUser.Email, user.Email)
-	assert.Equal(t, foundUser.Nickname, user.Nickname)
+	assert.Equal(t, foundUser.Username, user.Username)
 }
 
 func TestUpdateAUser(t *testing.T) {
@@ -88,7 +89,7 @@ func TestUpdateAUser(t *testing.T) {
 
 	userUpdate := models.User{
 		ID:       1,
-		Nickname: "modiUpdate",
+		Username: "modiUpdate",
 		Email:    "modiupdate@gmail.com",
 		Password: "password",
 	}
@@ -99,7 +100,7 @@ func TestUpdateAUser(t *testing.T) {
 	}
 	assert.Equal(t, updatedUser.ID, userUpdate.ID)
 	assert.Equal(t, updatedUser.Email, userUpdate.Email)
-	assert.Equal(t, updatedUser.Nickname, userUpdate.Nickname)
+	assert.Equal(t, updatedUser.Username, userUpdate.Username)
 }
 
 func TestDeleteAUser(t *testing.T) {

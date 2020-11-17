@@ -3,6 +3,7 @@ package models
 import (
 	//"errors"
 
+	"errors"
 	"fmt"
 	"time"
 
@@ -65,34 +66,53 @@ func (u *User) SingleObject(db *gorm.DB) (*User, error) {
 	return u, nil
 }
 
-func (u *User) FindByID(db *gorm.DB, uid uint64) (*User, error) {
-	var err error
-	err = db.Debug().Model(&User{}).Where("id = ?", uid).Take(&u).Error
-	if err != nil {
-		return &User{}, err
-	}
-	if err != nil {
-		return &User{}, err
-	}
-	return u, nil
-}
+// func (u *User) FindByID(db *gorm.DB, uid uint64) (*User, error) {
+// 	var err error
+// 	err = db.Debug().Model(&User{}).Where("id = ?", uid).Take(&u).Error
+// 	if err != nil {
+// 		return &User{}, err
+// 	}
+// 	if err != nil {
+// 		return &User{}, err
+// 	}
+// 	return u, nil
+// }
 
-func (u *User) FindAllUser(db *gorm.DB) (*[]User, error) {
+// func (u *User) FindAllUser(db *gorm.DB) (*[]User, error) {
+// 	var err error
+// 	users := []User{}
+// 	err = db.Debug().Model(&User{}).Limit(100).Find(&u).Error
+// 	if err != nil {
+// 		return &[]User{}, err
+// 	}
+// 	return &users, nil
+// }
+
+func (u *User) FindAllUsers(db *gorm.DB) (*[]User, error) {
 	var err error
 	users := []User{}
-	err = db.Debug().Model(&User{}).Limit(100).Find(&u).Error
+	err = db.Debug().Model(&User{}).Limit(100).Find(&users).Error
 	if err != nil {
 		return &[]User{}, err
 	}
-	return &users, nil
+	return &users, err
+}
+
+func (u *User) FindUserByID(db *gorm.DB, uid uint32) (*User, error) {
+	var err error
+	err = db.Debug().Model(User{}).Where("id = ?", uid).Take(&u).Error
+	if err != nil {
+		return &User{}, err
+	}
+	if gorm.IsRecordNotFoundError(err) {
+		return &User{}, errors.New("User Not Found")
+	}
+	return u, err
 }
 
 func (u *User) UpdateAUser(db *gorm.DB, uid uint32) (*User, error) {
 	var err error
-	err = db.Debug().Model(&User{}).Where("id = ?", u.ID).Updates(User{Username: u.Username, Email: u.Email, Password: u.Password}).Error
-	if err != nil {
-		return &User{}, err
-	}
+	err = db.Debug().Model(&User{}).Where("id = ?", uid).Updates(User{Username: u.Username, Email: u.Email, Password: u.Password}).Error
 	if err != nil {
 		return &User{}, err
 	}

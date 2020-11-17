@@ -9,8 +9,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/RussellGilmore/potago/api/responses"
-	"github.com/RussellGilmore/potago/api/utils/formaterror"
 	"github.com/gorilla/mux"
 )
 
@@ -86,10 +84,10 @@ func (server *Server) GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	users, err := user.FindAllUsers(server.DB)
 	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
+		utils.ERROR(w, http.StatusInternalServerError, err)
 		return
 	}
-	responses.JSON(w, http.StatusOK, users)
+	utils.JSON(w, http.StatusOK, users)
 }
 
 func (server *Server) GetUser(w http.ResponseWriter, r *http.Request) {
@@ -97,47 +95,44 @@ func (server *Server) GetUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	uid, err := strconv.ParseUint(vars["id"], 10, 32)
 	if err != nil {
-		responses.ERROR(w, http.StatusBadRequest, err)
+		utils.ERROR(w, http.StatusBadRequest, err)
 		return
 	}
 	user := models.User{}
 	userGotten, err := user.FindUserByID(server.DB, uint32(uid))
 	if err != nil {
-		responses.ERROR(w, http.StatusBadRequest, err)
+		utils.ERROR(w, http.StatusBadRequest, err)
 		return
 	}
-	responses.JSON(w, http.StatusOK, userGotten)
+	utils.JSON(w, http.StatusOK, userGotten)
 }
 
 func (server *Server) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	uid, err := strconv.ParseUint(vars["id"], 10, 32)
 	if err != nil {
-		responses.ERROR(w, http.StatusBadRequest, err)
+		utils.ERROR(w, http.StatusBadRequest, err)
 		return
 	}
 
 	body, err := ioutil.ReadAll(r.Body)
 
 	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
+		utils.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 	user := models.User{}
 	err = json.Unmarshal(body, &user)
 	if err != nil {
-		fmt.Println("Loi tai day 3")
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
+		utils.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 	updatedUser, err := user.UpdateAUser(server.DB, uint32(uid))
 	if err != nil {
-		fmt.Println("Loi tai day 4")
-		formattedError := formaterror.FormatError(err.Error())
-		responses.ERROR(w, http.StatusInternalServerError, formattedError)
+		utils.ERROR(w, http.StatusInternalServerError, err)
 		return
 	}
-	responses.JSON(w, http.StatusOK, updatedUser)
+	utils.JSON(w, http.StatusOK, updatedUser)
 }
 
 // DeleteUser...

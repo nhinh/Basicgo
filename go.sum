@@ -3,6 +3,7 @@ github.com/RussellGilmore/fullstack v0.0.0-20200123163605-5f600270d6d5/go.mod h1
 github.com/RussellGilmore/potago v0.0.0-20200608185820-77407407d9d7 h1:rDvdNVOF2e75BMCJyJ5LEZU0SwZTC1Yn0fSbj4qSixE=
 github.com/RussellGilmore/potago v0.0.0-20200608185820-77407407d9d7/go.mod h1:bbV/+CuDEm6EbQas3dr4iw4kjwjGsCr1/x7fuKSlZwY=
 github.com/andybalholm/cascadia v1.1.0/go.mod h1:GsXiBklL0woXo1j/WYWtSYYC4ouU9PqHO0sqidkEA4Y=
+github.com/badoux/checkmail v0.0.0-20181210160741-9661bd69e9ad h1:kXfVkP8xPSJXzicomzjECcw6tv1Wl9h1lNenWBfNKdg=
 github.com/badoux/checkmail v0.0.0-20181210160741-9661bd69e9ad/go.mod h1:r5ZalvRl3tXevRNJkwIB6DC4DD3DMjIlY9NEU1XGoaQ=
 github.com/denisenkom/go-mssqldb v0.0.0-20191124224453-732737034ffd h1:83Wprp6ROGeiHFAP8WJdI2RoxALQYgdllERc3N5N2DM=
 github.com/denisenkom/go-mssqldb v0.0.0-20191124224453-732737034ffd/go.mod h1:xbL0rPBG9cCiLr28tMa8zpbdarY27NDyej4t/EjAShU=

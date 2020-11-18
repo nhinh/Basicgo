@@ -1,12 +1,11 @@
 package models
 
 import (
-	//"errors"
-
 	"errors"
-	"fmt"
+	"strings"
 	"time"
 
+	"github.com/badoux/checkmail"
 	"github.com/jinzhu/gorm"
 )
 
@@ -19,10 +18,55 @@ type User struct {
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
+func (u *User) Validate(action string) error {
+	switch strings.ToLower(action) {
+	case "update":
+		if u.Username == "" {
+			return errors.New("Required Username")
+		}
+		if u.Password == "" {
+			return errors.New("Required Password")
+		}
+		if u.Email == "" {
+			return errors.New("Required Email")
+		}
+		if err := checkmail.ValidateFormat(u.Email); err != nil {
+			return errors.New("Invalid Email")
+		}
+
+		return nil
+	case "login":
+		if u.Password == "" {
+			return errors.New("Required Password")
+		}
+		if u.Email == "" {
+			return errors.New("Required Email")
+		}
+		if err := checkmail.ValidateFormat(u.Email); err != nil {
+			return errors.New("Invalid Email")
+		}
+		return nil
+
+	default:
+		if u.Username == "" {
+			return errors.New("Required username")
+		}
+		if u.Password == "" {
+			return errors.New("Required password")
+		}
+		if u.Email == "" {
+			return errors.New("Required email")
+		}
+		if err := checkmail.ValidateFormat(u.Email); err != nil {
+			return errors.New("Invalid Email")
+		}
+		return nil
+	}
+}
+
 func (u *User) SaveUser(db *gorm.DB) (*User, error) {
 	var err error
 	err = db.Debug().Create(&u).Error
-	fmt.Println("Insert boi Nhi %s", err)
 	if err != nil {
 		return &User{}, err
 	}

@@ -13,16 +13,43 @@ import (
 )
 
 func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
-	user := models.User{
-		ID:       4,
-		Username: "Nhinh create",
-		Email:    "nhinhdt@tmh.vn",
-		Password: "123456",
+	// user := models.User{
+	// 	ID:       4,
+	// 	Username: "Nhinh create",
+	// 	Email:    "nhinhdt@tmh.vn",
+	// 	Password: "123456",
+	// }
+	// userCreated, error := user.SaveUser(server.DB)
+	// if error != nil {
+	// 	utils.ERROR(w, http.StatusBadRequest, error)
+	// }
+	// utils.JSON(w, http.StatusCreated, userCreated)
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		utils.ERROR(w, http.StatusUnprocessableEntity, err)
 	}
-	userCreated, error := user.SaveUser(server.DB)
-	if error != nil {
-		utils.ERROR(w, http.StatusBadRequest, error)
+	user := models.User{}
+	err = json.Unmarshal(body, &user)
+	if err != nil {
+		utils.ERROR(w, http.StatusUnprocessableEntity, err)
+		return
 	}
+
+	// check empty: username, email, password
+	err = user.Validate("")
+	if err != nil {
+		utils.ERROR(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	userCreated, err := user.SaveUser(server.DB)
+
+	if err != nil {
+		utils.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+	w.Header().Set("Location", fmt.Sprintf("%s%s/%d", r.Host, r.RequestURI, userCreated.ID))
 	utils.JSON(w, http.StatusCreated, userCreated)
 }
 

@@ -14,6 +14,7 @@ import (
 func TestFindAllUsers(t *testing.T) {
 	// xoá và tạo user table
 	err := refreshUserTable()
+	// err := refreshUserAndPostTable()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -89,9 +90,9 @@ func TestUpdateAUser(t *testing.T) {
 
 	userUpdate := models.User{
 		ID:       1,
-		Username: "modiUpdate",
-		Email:    "modiupdate@gmail.com",
-		Password: "password",
+		Username: "nhiupdate",
+		Email:    "nhiupdate@gmail.com",
+		Password: "123456",
 	}
 	updatedUser, err := userUpdate.UpdateAUser(server.DB, user.ID)
 	if err != nil {

@@ -67,7 +67,7 @@ func refreshUserTable() error {
 	if err != nil {
 		return err
 	}
-	log.Printf("Successfully refreshed table")
+	log.Printf("Successfully refreshed table aaaa")
 	return nil
 }
 
@@ -114,12 +114,12 @@ func seedUsers() error {
 
 func refreshUserAndPostTable() error {
 	// xoá user and post table
-	err := server.DB.DropTableIfExists(&models.User{}, &models.Post{}).Error
+	err := server.DB.DropTableIfExists(&models.Post{}, &models.User{}).Error
 	if err != nil {
 		return err
 	}
 	// create user và post table
-	err = server.DB.AutoMigrate(&models.User{}, &models.Post{}).Error
+	err = server.DB.AutoMigrate(&models.Post{}, &models.User{}).Error
 	if err != nil {
 		return err
 	}

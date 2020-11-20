@@ -12,14 +12,14 @@ import (
 )
 
 func TestFindAllUsers(t *testing.T) {
-	// xoá và tạo user table
+	// delete and create user table
 	// err := refreshUserTable()
 	err := refreshUserAndPostTable()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// insert 2 bản ghi vào user table
+	// insert 2 record into user table
 	err = seedUsers()
 	if err != nil {
 		log.Fatal(err)
@@ -78,7 +78,7 @@ func TestGetUserByID(t *testing.T) {
 }
 
 func TestUpdateAUser(t *testing.T) {
-	// xoá user and create table
+	// delete and create user table
 	err := refreshUserTable()
 	if err != nil {
 		log.Fatal(err)

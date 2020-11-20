@@ -18,13 +18,13 @@ import (
 // Link tham khoan: https://blog.vietnamlab.vn/cach-viet-unit-test-cho-rest-api-trong-golang/
 
 func TestCreateUser(t *testing.T) {
-	// Xoa table
+	// delete table
 	err := refreshUserTable()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Test case
+	// create sample data
 	samples := []struct {
 		inputJSON    string
 		statusCode   int
@@ -72,13 +72,13 @@ func TestCreateUser(t *testing.T) {
 	}
 
 	for _, v := range samples {
-		// tạo một request
+		// create request
 		req, err := http.NewRequest("POST", "/users", bytes.NewBufferString(v.inputJSON))
 		if err != nil {
 			t.Errorf("this is the error: %v", err)
 		}
 
-		// Gọi phương thức cần test.
+		// call method to test.
 		rr := httptest.NewRecorder()
 		handler := http.HandlerFunc(server.CreateUser)
 		handler.ServeHTTP(rr, req)
@@ -89,10 +89,10 @@ func TestCreateUser(t *testing.T) {
 			fmt.Printf("Cannot convert to json: %v", err)
 		}
 
-		// So sánh status thực tế nhận được và status mong muốn.
+		// Compare the actual received status and the desired status.
 		assert.Equal(t, rr.Code, v.statusCode)
 
-		// So sánh response thực tế và response mong muốn
+		// Compare the actual received response and the desired response.
 		if v.statusCode == 201 {
 			assert.Equal(t, responseMap["username"], v.username)
 			assert.Equal(t, responseMap["email"], v.email)
@@ -115,7 +115,6 @@ func TestGetUsers(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	// Gọi phương thức cần test.
 	req, err := http.NewRequest("GET", "/users", nil)
 	if err != nil {
 		t.Errorf("this is the error: %v\n", err)
@@ -131,10 +130,8 @@ func TestGetUsers(t *testing.T) {
 		log.Fatalf("Cannot convert to json: %v\n", err)
 	}
 
-	// So sánh status thực tế nhận được và status mong muốn.
 	assert.Equal(t, rr.Code, http.StatusOK)
 
-	// So sánh response thực tế và response mong muốn
 	assert.Equal(t, len(users), 2)
 }
 

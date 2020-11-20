@@ -20,3 +20,7 @@ Similar to other test functions are similar
 > go test -v -run function_name
 ### Run all: 
 > go test ./...
+## References
+User: https://blog.vietnamlab.vn/cach-viet-unit-test-cho-rest-api-trong-golang/ <br />
+User: https://medium.com/@kelvin_sp/building-and-testing-a-rest-api-in-golang-using-gorilla-mux-and-mysql-1f0518818ff6<br />
+Product: https://semaphoreci.com/community/tutorials/building-and-testing-a-rest-api-in-go-with-gorilla-mux-and-postgresql

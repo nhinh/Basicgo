@@ -1,3 +1,8 @@
+# Basic Go
+Install: 
+> make db_start<br />
+> make run
+### Use postman call API
 # Unit test for Basic go
 1. Will test the functions
 <br />in controller (CreateUser, CreateUserSelect, GetUser, GetUsers, UpdateUser, DeleteUser)

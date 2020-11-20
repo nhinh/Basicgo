@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"strings"
 	"time"
 
 	"github.com/badoux/checkmail"
@@ -18,50 +17,65 @@ type User struct {
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
-func (u *User) Validate(action string) error {
-	switch strings.ToLower(action) {
-	case "update":
-		if u.Username == "" {
-			return errors.New("Required Username")
-		}
-		if u.Password == "" {
-			return errors.New("Required Password")
-		}
-		if u.Email == "" {
-			return errors.New("Required Email")
-		}
-		if err := checkmail.ValidateFormat(u.Email); err != nil {
-			return errors.New("Invalid Email")
-		}
+// func (u *User) Validate(action string) error {
+// 	switch strings.ToLower(action) {
+// 	case "update":
+// 		if u.Username == "" {
+// 			return errors.New("Required Username")
+// 		}
+// 		if u.Password == "" {
+// 			return errors.New("Required Password")
+// 		}
+// 		if u.Email == "" {
+// 			return errors.New("Required Email")
+// 		}
+// 		if err := checkmail.ValidateFormat(u.Email); err != nil {
+// 			return errors.New("Invalid Email")
+// 		}
 
-		return nil
-	case "login":
-		if u.Password == "" {
-			return errors.New("Required Password")
-		}
-		if u.Email == "" {
-			return errors.New("Required Email")
-		}
-		if err := checkmail.ValidateFormat(u.Email); err != nil {
-			return errors.New("Invalid Email")
-		}
-		return nil
+// 		return nil
+// 	case "login":
+// 		if u.Password == "" {
+// 			return errors.New("Required Password")
+// 		}
+// 		if u.Email == "" {
+// 			return errors.New("Required Email")
+// 		}
+// 		if err := checkmail.ValidateFormat(u.Email); err != nil {
+// 			return errors.New("Invalid Email")
+// 		}
+// 		return nil
 
-	default:
-		if u.Username == "" {
-			return errors.New("Required username")
-		}
-		if u.Password == "" {
-			return errors.New("Required password")
-		}
-		if u.Email == "" {
-			return errors.New("Required email")
-		}
-		if err := checkmail.ValidateFormat(u.Email); err != nil {
-			return errors.New("Invalid Email")
-		}
-		return nil
+// 	default:
+// 		if u.Username == "" {
+// 			return errors.New("Required username")
+// 		}
+// 		if u.Password == "" {
+// 			return errors.New("Required password")
+// 		}
+// 		if u.Email == "" {
+// 			return errors.New("Required email")
+// 		}
+// 		if err := checkmail.ValidateFormat(u.Email); err != nil {
+// 			return errors.New("Invalid Email")
+// 		}
+// 		return nil
+// 	}
+// }
+func (u *User) Validate() error {
+	if u.Username == "" {
+		return errors.New("Required username")
 	}
+	if u.Password == "" {
+		return errors.New("Required password")
+	}
+	if u.Email == "" {
+		return errors.New("Required email")
+	}
+	if err := checkmail.ValidateFormat(u.Email); err != nil {
+		return errors.New("Invalid Email")
+	}
+	return nil
 }
 
 func (u *User) SaveUser(db *gorm.DB) (*User, error) {
@@ -82,16 +96,7 @@ func (u *User) SelectSaveUser(db *gorm.DB) (*User, error) {
 	return u, nil
 }
 
-func (u *User) BatchInsert(db *gorm.DB) (*User, error) {
-	var err error
-	err = db.Create(&u).Error
-	if err != nil {
-		return &User{}, err
-	}
-	return u, nil
-}
-
-// func (u *User) PostUser(db *gorm.DB) (*User, error) {
+// func (u *User) BatchInsert(db *gorm.DB) (*User, error) {
 // 	var err error
 // 	err = db.Create(&u).Error
 // 	if err != nil {
@@ -101,35 +106,13 @@ func (u *User) BatchInsert(db *gorm.DB) (*User, error) {
 // }
 
 // Get user
-func (u *User) SingleObject(db *gorm.DB) (*User, error) {
-	var err error
-	err = db.First(&u).Error
-	if err != nil {
-		return &User{}, err
-	}
-	return u, nil
-}
-
-// func (u *User) FindByID(db *gorm.DB, uid uint64) (*User, error) {
+// func (u *User) SingleObject(db *gorm.DB) (*User, error) {
 // 	var err error
-// 	err = db.Debug().Model(&User{}).Where("id = ?", uid).Take(&u).Error
-// 	if err != nil {
-// 		return &User{}, err
-// 	}
+// 	err = db.First(&u).Error
 // 	if err != nil {
 // 		return &User{}, err
 // 	}
 // 	return u, nil
-// }
-
-// func (u *User) FindAllUser(db *gorm.DB) (*[]User, error) {
-// 	var err error
-// 	users := []User{}
-// 	err = db.Debug().Model(&User{}).Limit(100).Find(&u).Error
-// 	if err != nil {
-// 		return &[]User{}, err
-// 	}
-// 	return &users, nil
 // }
 
 func (u *User) FindAllUsers(db *gorm.DB) (*[]User, error) {

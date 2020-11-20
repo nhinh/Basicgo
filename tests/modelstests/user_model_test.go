@@ -13,8 +13,8 @@ import (
 
 func TestFindAllUsers(t *testing.T) {
 	// xoá và tạo user table
-	err := refreshUserTable()
-	// err := refreshUserAndPostTable()
+	// err := refreshUserTable()
+	err := refreshUserAndPostTable()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -35,7 +35,8 @@ func TestFindAllUsers(t *testing.T) {
 
 func TestSaveUser(t *testing.T) {
 
-	err := refreshUserTable()
+	// err := refreshUserTable()
+	err := refreshUserAndPostTable()
 	if err != nil {
 		log.Fatal(err)
 	}
